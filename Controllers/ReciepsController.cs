@@ -30,6 +30,17 @@ namespace GroceryManagement.Controllers
           }
             return await _context.Recieps.ToListAsync();
         }
+        // GET: api/Recieps/545545
+        [HttpGet("one")]
+        public async Task<ActionResult< Reciep >> GetReciepsbyNumber(int number,int count)
+        {
+            if (_context.Recieps == null)
+            {
+                return NotFound();
+            }
+            var reciep = await _context.Recieps.Where(r=>r.ReciepNumber == number && r.ReciepProductCount == count). ToListAsync();
+            return reciep.First();
+        }
 
         // GET: api/Recieps/5
         [HttpGet("{id}")]

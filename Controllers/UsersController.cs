@@ -30,6 +30,21 @@ namespace GroceryManagement.Controllers
           }
             return await _context.Users.ToListAsync();
         }
+        // GET: api/Users
+        [HttpGet("Login")]
+        public async Task<ActionResult< User>> GetOneUsers(String email , String password)
+        {
+
+            byte[] data1 = Convert.FromBase64String(password);
+            string decodedPassword1 = System.Text.Encoding.UTF8.GetString(data1); 
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
+            var user = await _context.Users.Where(u => u.UserEmail == email && u.UserPassword == decodedPassword1).ToListAsync();
+            return user.First();
+            
+        }
 
         // GET: api/Users/5
         [HttpGet("{id}")]

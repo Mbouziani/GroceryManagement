@@ -14,7 +14,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
 {
-    builder.WithOrigins("https://aljazeramax.com").AllowAnyMethod().AllowAnyHeader();
+    builder.WithOrigins("https://localhost:7289").AllowAnyMethod().AllowAnyHeader();
 }));
 
 

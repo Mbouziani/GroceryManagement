@@ -19,11 +19,17 @@ namespace GroceryManagement.Models
         public virtual DbSet<Agent> Agents { get; set; } = null!;
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<Reciep> Recieps { get; set; } = null!;
+        public virtual DbSet<Reciepreturned> Reciepreturneds { get; set; } = null!;
         public virtual DbSet<Sale> Sales { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        { 
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=DESKTOP-HG4VL0E\\SQLEXPRESS;Database=MarketManagementDB;Trusted_Connection=True;");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -101,6 +107,36 @@ namespace GroceryManagement.Models
                 entity.Property(e => e.ReciepTotalPrice).HasColumnName("reciepTotalPrice");
 
                 entity.Property(e => e.RecieppriceTax).HasColumnName("recieppriceTax");
+            });
+
+            modelBuilder.Entity<Reciepreturned>(entity =>
+            {
+                entity.HasKey(e => e.ReciepId)
+                    .HasName("PK__reciepre__D5B2B8F1CF27456F");
+
+                entity.ToTable("reciepreturned");
+
+                entity.Property(e => e.ReciepId).HasColumnName("reciepID");
+
+                entity.Property(e => e.PriceTotalWithTax).HasColumnName("priceTotalWithTax");
+
+                entity.Property(e => e.ReciepDate)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("reciepDate");
+
+                entity.Property(e => e.ReciepNumber).HasColumnName("reciepNumber");
+
+                entity.Property(e => e.ReciepProductCount).HasColumnName("reciepProductCount");
+
+                entity.Property(e => e.ReciepTotalPrice).HasColumnName("reciepTotalPrice");
+
+                entity.Property(e => e.RecieppriceTax).HasColumnName("recieppriceTax");
+
+                entity.Property(e => e.ReturnedDate)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("returnedDate");
             });
 
             modelBuilder.Entity<Sale>(entity =>
